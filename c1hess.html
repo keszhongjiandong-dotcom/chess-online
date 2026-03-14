@@ -1,0 +1,26 @@
+<script>
+  const databaseURL = "https://chinese1-1e222-default-rtdb.asia-southeast1.firebasedatabase.app/games/room1.json";
+
+  async function updateDatabase(){
+    await fetch(databaseURL, {
+      method:'PUT',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({board, turn, history})
+    });
+  }
+
+  async function fetchDatabase(){
+    try{
+      const resp = await fetch(databaseURL);
+      const data = await resp.json();
+      if(data){
+        board = data.board||board;
+        turn = data.turn||turn;
+        history = data.history||history;
+        renderBoard();
+      }
+    }catch(e){ console.log(e) }
+  }
+
+  setInterval(fetchDatabase, 1000);
+</script>
